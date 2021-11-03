@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { useData } from "../providers/DataProvider";
 import { TaskItem } from "./TaskItem";
@@ -38,6 +39,12 @@ export const TaskList = () => {
     setTextValue(value);
   };
 
+  const [response, setResponse] = useState();
+
+    axios.get("https://tasks-planner-api.herokuapp.com/api/task/all", {
+    headers: {"Authorization":"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYW50aWFnb0BtYWlsLmNvbSIsInJvbGUiOiJVc2VyIiwiaWF0IjoxNjM1OTExMDI3LCJleHAiOjE2MzU5MjkwMjd9.C65vDQVJpYafh0VA_SGLGpUHxcMqqRcI-39CH5LD9hE"}
+  }).then((res) => setResponse(res.data)).catch((error) => console.log(error.res))
+
   return (
     <article>
       <form onSubmit={handleSubmit}>
@@ -51,12 +58,13 @@ export const TaskList = () => {
       </form>
 
       <ul>
-        {tasks.map((task, index) => {
+        {response.map((task, index) => {
           return (
             <TaskItem
               id={task.id}
-              isChecked={task.isCompleted}
-              taskName={task.name}
+              name={task.name}
+              description={task.description}
+              dueDate={task.dueDate}
               onTaskChange={handleTaskChange(index)}
             />
           );
