@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { useData } from "../providers/DataProvider";
+import {Flex} from "@chakra-ui/react";
 
 export const TaskForm = () => {
   const history = useHistory();
@@ -35,18 +36,20 @@ export const TaskForm = () => {
   };
 
   return (
-    <form>
-      <input
-        type="text"
-        placeholder="Task Name"
-        value={text}
-        onChange={handleChange}
-      />
-      <input type="checkbox" checked={task.isCompleted} />
+    <Flex height="100vh" alignItems="center" justifyContent="center">
+      <form>
+        <input
+          type="text"
+          placeholder="Task Name"
+          value={text}
+          onChange={handleChange}
+        />
+        <input type="checkbox" checked={task.isCompleted} />
 
-      <button type="button" onClick={handleSave}>
-        Save
-      </button>
-    </form>
+        <button type="button" onClick={handleSave}>
+          Save
+        </button>
+      </form>
+    </Flex>
   );
 };

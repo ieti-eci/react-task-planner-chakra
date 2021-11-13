@@ -1,7 +1,7 @@
-import axios from "axios";
 import { useState } from "react";
 import { useData } from "../providers/DataProvider";
 import { TaskItem } from "./TaskItem";
+import {Flex} from "@chakra-ui/react";
 
 export const TaskList = () => {
   const { data, setData } = useData();
@@ -63,22 +63,24 @@ export const TaskList = () => {
   }
 
   return (
-    <article>
-      <form onSubmit={handleSubmit}>
-        <input
-          value={textValue}
-          onChange={handleTextChange}
-          type="text"
-          placeholder="Task name"
-        />
-        <button>Create Task</button>
-      </form>
+    <Flex height="100vh" alignItems="center" justifyContent="center">
+      <article>
+        <form onSubmit={handleSubmit}>
+          <input
+            value={textValue}
+            onChange={handleTextChange}
+            type="text"
+            placeholder="Task name"
+          />
+          <button>Create Task</button>
+        </form>
 
-      <ul>
-        {
-          handleTaskInfo()
-        }
-      </ul>
-    </article>
+        <ul>
+          {
+            handleTaskInfo()
+          }
+        </ul>
+      </article>
+    </Flex>
   );
 };
