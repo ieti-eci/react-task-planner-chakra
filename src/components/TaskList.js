@@ -39,11 +39,28 @@ export const TaskList = () => {
     setTextValue(value);
   };
 
-  const [response, setResponse] = useState();
+  const handleTaskInfo = () => {
+      ApiLookup.lookup("GET", "api/task/all", (dataRe) => {
+        setData({tasks: dataRe.data});
+    }, "");
 
-    axios.get("https://tasks-planner-api.herokuapp.com/api/task/all", {
-    headers: {"Authorization":"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYW50aWFnb0BtYWlsLmNvbSIsInJvbGUiOiJVc2VyIiwiaWF0IjoxNjM1OTExMDI3LCJleHAiOjE2MzU5MjkwMjd9.C65vDQVJpYafh0VA_SGLGpUHxcMqqRcI-39CH5LD9hE"}
-  }).then((res) => setResponse(res.data)).catch((error) => console.log(error.res))
+    return (
+      tasks.map((task, index) => {
+        return (
+          <TaskItem
+            id={task.id}
+            isChecked={task.isCompleted}
+            taskName={task.name}
+            description={task.description}
+            status={task.status}
+            assignedTo={task.assignedTo}
+            dueDate={task.dueDate}
+            onTaskChange={handleTaskChange(index)}
+            />
+        );
+      } )
+    )
+  }
 
   return (
     <article>
@@ -58,17 +75,9 @@ export const TaskList = () => {
       </form>
 
       <ul>
-        {response.map((task, index) => {
-          return (
-            <TaskItem
-              id={task.id}
-              name={task.name}
-              description={task.description}
-              dueDate={task.dueDate}
-              onTaskChange={handleTaskChange(index)}
-            />
-          );
-        })}
+        {
+          handleTaskInfo()
+        }
       </ul>
     </article>
   );
